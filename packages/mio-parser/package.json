@@ -1,0 +1,30 @@
+{
+  "name": "@mio/parser",
+  "version": "1.0.0",
+  "description": "TypeScript parser for KBV MIO FHIR Bundles (Impfausweis, eAU, Mutterpass)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "node --experimental-vm-modules dist/test.js",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "keywords": ["fhir", "kbv", "mio", "impfausweis", "eau", "mutterpass", "epa", "gematik"],
+  "license": "MIT"
+}

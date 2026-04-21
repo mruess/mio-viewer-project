@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="mp-bundle-001" />
+  <meta>
+    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_MR_Bundle|1.0.0" />
+  </meta>
+  <type value="document" />
+  <timestamp value="2024-04-10T09:30:00Z" />
+  <entry>
+    <fullUrl value="urn:uuid:mp-comp-001" />
+    <resource>
+      <Composition>
+        <id value="mp-comp-001" />
+        <status value="final" />
+        <type><coding><system value="http://loinc.org" /><code value="57055-6" /></coding></type>
+        <subject><reference value="urn:uuid:mp-pat-001" /></subject>
+        <date value="2024-04-10" />
+        <author><reference value="urn:uuid:mp-role-001" /></author>
+        <title value="Mutterpass" />
+      </Composition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-pat-001" />
+    <resource>
+      <Patient>
+        <id value="mp-pat-001" />
+        <identifier>
+          <type><coding><system value="http://fhir.de/CodeSystem/identifier-type-de-basis" /><code value="GKV" /></coding></type>
+          <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+          <value value="B987654321" />
+        </identifier>
+        <n>
+          <use value="official" />
+          <text value="Sophie Bergmann" />
+          <family value="Bergmann" />
+          <given value="Sophie" />
+        </n>
+        <gender value="female" />
+        <birthDate value="1992-11-03" />
+      </Patient>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-obs-001" />
+    <resource>
+      <Observation>
+        <id value="mp-obs-001" />
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="11884-4" />
+            <display value="Gestational age Estimated" />
+          </coding>
+          <text value="Schwangerschaftswoche (SSW)" />
+        </code>
+        <subject><reference value="urn:uuid:mp-pat-001" /></subject>
+        <effectiveDateTime value="2024-04-10" />
+        <valueQuantity>
+          <value value="28" />
+          <unit value="SSW" />
+          <code value="wk" />
+        </valueQuantity>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-obs-002" />
+    <resource>
+      <Observation>
+        <id value="mp-obs-002" />
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="8302-2" />
+            <display value="Body height" />
+          </coding>
+          <text value="Körpergröße" />
+        </code>
+        <subject><reference value="urn:uuid:mp-pat-001" /></subject>
+        <effectiveDateTime value="2024-04-10" />
+        <valueQuantity>
+          <value value="168" />
+          <unit value="cm" />
+          <code value="cm" />
+        </valueQuantity>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-obs-003" />
+    <resource>
+      <Observation>
+        <id value="mp-obs-003" />
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="29463-7" />
+            <display value="Body weight" />
+          </coding>
+          <text value="Körpergewicht" />
+        </code>
+        <subject><reference value="urn:uuid:mp-pat-001" /></subject>
+        <effectiveDateTime value="2024-04-10" />
+        <valueQuantity>
+          <value value="72" />
+          <unit value="kg" />
+          <code value="kg" />
+        </valueQuantity>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-obs-004" />
+    <resource>
+      <Observation>
+        <id value="mp-obs-004" />
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="55277-8" />
+            <display value="HIV status" />
+          </coding>
+          <text value="HIV-Antikörpertest" />
+        </code>
+        <subject><reference value="urn:uuid:mp-pat-001" /></subject>
+        <effectiveDateTime value="2024-02-01" />
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="260385009" />
+            <display value="Negative" />
+          </coding>
+          <text value="negativ" />
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-obs-005" />
+    <resource>
+      <Observation>
+        <id value="mp-obs-005" />
+        <status value="final" />
+        <code>
+          <coding>
+            <system value="http://loinc.org" />
+            <code value="LP7803-8" />
+            <display value="Rh blood group" />
+          </coding>
+          <text value="Blutgruppe / Rh-Faktor" />
+        </code>
+        <subject><reference value="urn:uuid:mp-pat-001" /></subject>
+        <effectiveDateTime value="2024-02-01" />
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="112144000" />
+            <display value="Blood group A (finding)" />
+          </coding>
+          <text value="A Rh pos" />
+        </valueCodeableConcept>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-role-001" />
+    <resource>
+      <PractitionerRole>
+        <id value="mp-role-001" />
+        <practitioner><reference value="urn:uuid:mp-prac-001" /></practitioner>
+        <organization><reference value="urn:uuid:mp-org-001" /></organization>
+      </PractitionerRole>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-prac-001" />
+    <resource>
+      <Practitioner>
+        <id value="mp-prac-001" />
+        <identifier>
+          <type><coding><code value="LANR" /></coding></type>
+          <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR" />
+          <value value="987654321" />
+        </identifier>
+        <n>
+          <use value="official" />
+          <text value="Dr. med. Anna Schneider" />
+          <family value="Schneider" />
+          <given value="Anna" />
+          <prefix><extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier"><valueString value="Dr. med." /></extension></prefix>
+        </n>
+        <qualification>
+          <code><coding><code value="096" /><display value="FA Gynäkologie und Geburtshilfe" /></coding></code>
+        </qualification>
+        <telecom><system value="phone" /><value value="089/98765432" /></telecom>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:mp-org-001" />
+    <resource>
+      <Organization>
+        <id value="mp-org-001" />
+        <name value="Frauenarztpraxis Dr. Schneider" />
+        <address>
+          <type value="both" />
+          <line value="Maximilianstr. 8">
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName"><valueString value="Maximilianstr." /></extension>
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber"><valueString value="8" /></extension>
+          </line>
+          <city value="München" />
+          <postalCode value="80333" />
+          <country value="DE" />
+        </address>
+        <telecom><system value="phone" /><value value="089/98765432" /></telecom>
+      </Organization>
+    </resource>
+  </entry>
+</Bundle>
