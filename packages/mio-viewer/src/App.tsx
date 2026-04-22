@@ -38,12 +38,24 @@ export function App() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })
-      .then((data: { xml: string }) => {
-        const xml = atob(data.xml)
+      .then((data: { xml?: string }) => {
+        if (!data.xml) throw new Error('no_xml')
+        let xml: string
+        try {
+          xml = atob(data.xml)
+        } catch {
+          throw new Error('no_xml')
+        }
         parseAndShow(xml, `url-${id}`)
       })
       .catch((e: unknown) => {
-        setState({ status: 'error', message: `Ladefehler: ${e instanceof Error ? e.message : String(e)}` })
+        const isNotFound = e instanceof Error && (e.message === 'no_xml' || e.message.startsWith('HTTP'))
+        setState({
+          status: 'error',
+          message: isNotFound
+            ? `Kontext ${id} konnte nicht geladen werden.`
+            : `Ladefehler: ${e instanceof Error ? e.message : String(e)}`,
+        })
       })
   // parseAndShow ist stabil (useCallback ohne deps-Änderungen) — einmalig beim Mount
   // eslint-disable-next-line react-hooks/exhaustive-deps
