@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { parseMioBundle, type MioParseResult } from '@mio/parser'
 import { VaccinationViewer } from './components/VaccinationViewer'
 import { EauViewer } from './components/EauViewer'
@@ -9,8 +9,11 @@ import impfausweisXml from '../../../test-data/impfausweis_real.xml?raw'
 import eauXml from '../../../test-data/eau.xml?raw'
 import mutterpassXml from '../../../test-data/mutterpass.xml?raw'
 
+const API_BASE = 'http://192.168.0.225:8090/dataapi/context.php'
+
 type ViewerState =
   | { status: 'idle' }
+  | { status: 'loading' }
   | { status: 'error'; message: string }
   | { status: 'parsed'; result: MioParseResult }
 
@@ -24,6 +27,27 @@ export function App() {
   const [state, setState] = useState<ViewerState>({ status: 'idle' })
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
   const [uploadedDocs, setUploadedDocs] = useState<DocEntry[]>([])
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('id')
+    if (!id) return
+
+    setState({ status: 'loading' })
+    fetch(`${API_BASE}?id=${encodeURIComponent(id)}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
+      .then((data: { xml: string }) => {
+        const xml = atob(data.xml)
+        parseAndShow(xml, `url-${id}`)
+      })
+      .catch((e: unknown) => {
+        setState({ status: 'error', message: `Ladefehler: ${e instanceof Error ? e.message : String(e)}` })
+      })
+  // parseAndShow ist stabil (useCallback ohne deps-Änderungen) — einmalig beim Mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const parseAndShow = useCallback((xml: string, id: string) => {
     try {
@@ -98,6 +122,13 @@ function ViewerContent({ state }: { state: ViewerState }) {
         <span style={{ fontSize: 12, color: 'var(--faint)' }}>
           Wähle ein Dokument aus der Seitenleiste
         </span>
+      </div>
+    )
+  }
+  if (state.status === 'loading') {
+    return (
+      <div className="empty-state">
+        <span>Dokument wird geladen…</span>
       </div>
     )
   }
