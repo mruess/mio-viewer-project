@@ -42,7 +42,8 @@ export function App() {
         if (!data.xml) throw new Error('no_xml')
         let xml: string
         try {
-          xml = atob(data.xml)
+          const bytes = Uint8Array.from(atob(data.xml), c => c.charCodeAt(0))
+          xml = new TextDecoder().decode(bytes)
         } catch {
           throw new Error('no_xml')
         }

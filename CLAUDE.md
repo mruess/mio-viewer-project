@@ -6,7 +6,7 @@ Dieses Dokument ist die Übergabe für Claude Code. Es enthält alles was du wis
 
 ## 1. Projektziel
 
-Ein **Read-Only MIO-Viewer** für die elektronische Patientenakte (ePA). Die App empfängt FHIR-Bundle-XML-Dateien aus dem ePA-System und stellt sie in lesbarer Form dar — **ohne Bearbeitung, ohne Backend, rein clientseitig**.
+Ein **Read-Only MIO-Viewer** für die elektronische Patientenakte (ePA). Die App empfängt FHIR-Bundle-XML-Dateien aus dem ePA-System und stellt sie in lesbarer Form dar — **ohne Bearbeitung, rein clientseitig**. Dokumente können per Datei-Upload oder über einen URL-Parameter `?id=` aus einem Backend geladen werden.
 
 Unterstützte Dokumenttypen (MIOs = Medizinische Informationsobjekte, KBV-Standard):
 - **Impfausweis** (`KBV_PR_MIO_Vaccination_Bundle_Entry`)
@@ -32,20 +32,20 @@ mio-viewer-project/
 │   │   │   └── index.ts              ← öffentliches API
 │   │   └── package.json / tsconfig.json
 │   │
-│   └── mio-viewer/                   ← React-App — DEINE AUFGABE
+│   └── mio-viewer/                   ← React-App — FERTIG
 │       ├── src/
 │       │   ├── main.tsx              ← Entry point (fertig)
 │       │   ├── index.css             ← Design-Tokens + alle CSS-Klassen (fertig)
-│       │   ├── App.tsx               ← Root-Komponente mit State-Management (Scaffold)
+│       │   ├── App.tsx               ← Root-Komponente mit State-Management (fertig)
 │       │   ├── hooks/
 │       │   │   ├── useMioParser.ts   ← Parser-Hook mit Loading/Error (fertig)
 │       │   │   └── useDropzone.ts    ← Drag & Drop Hook (fertig)
 │       │   └── components/
-│       │       ├── shared.tsx        ← PatientCard, PractitionerPill, Tag (Scaffold)
-│       │       ├── Sidebar.tsx       ← Dokument-Liste + Upload-Zone (Scaffold)
-│       │       ├── VaccinationViewer.tsx ← Impfausweis-Renderer (Scaffold)
-│       │       ├── EauViewer.tsx     ← eAU-Renderer (Scaffold)
-│       │       └── MutterpassViewer.tsx  ← Mutterpass-Renderer (Scaffold)
+│       │       ├── shared.tsx        ← PatientCard, PractitionerPill, Tag (fertig)
+│       │       ├── Sidebar.tsx       ← Dokument-Liste + Upload-Zone (fertig)
+│       │       ├── VaccinationViewer.tsx ← Impfausweis-Renderer (fertig)
+│       │       ├── EauViewer.tsx     ← eAU-Renderer (fertig)
+│       │       └── MutterpassViewer.tsx  ← Mutterpass-Renderer (fertig)
 │       └── package.json / tsconfig.json / vite.config.ts / index.html
 │
 └── test-data/
@@ -227,67 +227,66 @@ interface MioOrganization {
 
 ---
 
-## 5. Aufgaben (priorisiert)
+## 5. Aufgaben — Implementierungsstand
 
-### Prio 1 — App zum Laufen bringen
+### Prio 1 — Erledigt ✓
 
-**5.1 App.tsx vervollständigen**
-- `useMioParser`-Hook einbinden
-- `Sidebar`-Komponente einbinden
-- Beispiel-XMLs aus `test-data/` als Konstanten importieren (via `?raw` in Vite: `import xml from '../../../test-data/impfausweis_real.xml?raw'`)
-- State für `activeDocId` verwalten
+**5.1 App.tsx** ✓ — `useMioParser`-Hook eingebunden, Sidebar integriert, Beispiel-XMLs per `?raw` importiert, `activeDocId`-State verwaltet, URL-Parameter-Ladelogik implementiert (siehe Abschnitt 5a).
 
-**5.2 Sidebar.tsx implementieren**
-- `useDropzone`-Hook nutzen
-- Drei Beispiel-Dokumente in der Liste (Impfausweis, eAU, Mutterpass)
-- Upload-Zone: Klick + Drag & Drop
-- Aktives Dokument mit CSS-Klasse `.active` markieren
-- CSS-Klassen: `.app-sidebar`, `.sidebar-label`, `.doc-item`, `.doc-icon--{type}`, `.upload-zone`
+**5.2 Sidebar.tsx** ✓ — `useDropzone`-Hook genutzt, drei eingebaute Dokumente, Klick + Drag & Drop, `.active`-Markierung.
 
-**5.3 VaccinationViewer.tsx implementieren**
-- Dokument-Header: Titel, Datum, Bundle-ID, MIO-Badge
-- `PatientCard` für Patientendaten
-- Pro Immunization eine Karte mit: vaccineName, Datum, Charge, Hersteller, Zielkrankheiten, Folgeimpfung, Note, Enterer + Attester
-- CSS: `.imm-card`, `.imm-card-head`, `.imm-name`, `.imm-date`, `.imm-body`, `.imm-meta`
-- `Tag`-Komponente für entryType und isBasicImmunization
+**5.3 VaccinationViewer.tsx** ✓ — Dokument-Header, PatientCard, Immunization-Karten (Name, Datum, Charge, Hersteller, Zielkrankheiten, Folgeimpfung, Note, Enterer + Attester), Tags für entryType und isBasicImmunization.
 
-**5.4 EauViewer.tsx implementieren**
-- AU-Zeitraum prominent (Von–Bis als großen Date-Range)
-- Bescheinigungsart als `Tag`: Erst=grün, Folge=amber, Abschluss=blau
-- ICD-10 Diagnose: Code + Beschreibung
-- `workAccident === true` → rotes Warning-Tag
+**5.4 EauViewer.tsx** ✓ — AU-Zeitraum prominent, Bescheinigungsart-Tag (Erst=grün/Folge=amber/Abschluss=blau), ICD-10, Arbeitsunfall-Warning.
 
-**5.5 MutterpassViewer.tsx implementieren**
-- Observations als `<table className="obs-table">`: Befund | Wert | Datum
-- `value` sicher rendern: typeof number/string → direkt, boolean → Ja/Nein, FhirCoding → text/displayDe/display/code
+**5.5 MutterpassViewer.tsx** ✓ — Observations-Tabelle, sicheres value-Rendering (boolean/number/string/FhirCoding).
 
-**5.6 shared.tsx — PatientCard + PractitionerPill + Tag ausbauen**
-- `PatientCard`: Avatar mit Initialen, Name groß, Felder in `.field-grid`
-- `PractitionerPill`: kompakt, role/name/org/qualification in `.prac-pill`
-- `Tag`: CSS-Klasse `.tag.tag--{color}` nutzen
+**5.6 shared.tsx** ✓ — PatientCard (Avatar + Initialen), PractitionerPill, Tag mit Farbvarianten, CodingDisplay-Hilfskomponente.
 
-### Prio 2 — Qualität
+**5.7 Fehlerbehandlung** ✓ — `type: 'unknown'` mit Profil-URL, MioParseError-Logging, Empty states.
 
-**5.7 Fehlerbehandlung**
-- Bei `type: 'unknown'` erklärender Hinweis mit der Profil-URL
-- `MioParseError` mit Stack in der Konsole loggen
-- Empty states wenn Arrays leer sind (keine Impfungen, keine Befunde)
+### Prio 3 — Offen (Nice-to-have)
 
-**5.8 Eigene XML-Uploads testen**
-- Mit den drei Test-Bundles in `test-data/` testen
-- Sicherstellen dass ein unbekanntes Bundle nicht crasht
+**5.9 Impfausweis: Impfstatus-Zusammenfassung** — STIKO-Kategorien aus targetDiseases gruppieren ("COVID-19: 2 Impfungen" oben).
 
-### Prio 3 — Nice-to-have
+**5.10 eAU: Sekundärdiagnose** — `diagnoseSecondary` anzeigen wenn vorhanden (Parser füllt das Feld noch nicht).
 
-**5.9 Impfausweis: Impfstatus-Zusammenfassung**
-- STIKO-Kategorien aus targetDiseases gruppieren
-- "COVID-19: 2 Impfungen" als Übersicht oben
+**5.11 Mutterpass: Observations nach LOINC-Gruppe** — Vitaldaten (8302-2 Größe, 29463-7 Gewicht) vs. Laborwerte vs. Anamnese.
 
-**5.10 eAU: mehrere Diagnosen**
-- `diagnosePrimary` + `diagnoseSecondary` beide anzeigen wenn vorhanden
+---
 
-**5.11 Mutterpass: Observations nach LOINC-Gruppe**
-- Vitaldaten (8302-2 Größe, 29463-7 Gewicht) vs. Laborwerte vs. Anamnese
+## 5a. Backend-Integration — URL-Parameter `?id=`
+
+### Funktionsweise
+
+Beim Seitenaufruf mit `?id=<contextId>` lädt `App.tsx` das Dokument automatisch vom Backend:
+
+```
+GET http://192.168.0.225:8090/dataapi/context.php?id=<contextId>
+```
+
+Das Backend antwortet mit JSON:
+```json
+{ "xml": "<base64-kodiertes FHIR-XML>" }
+```
+
+`App.tsx` dekodiert das XML mit `atob()` und parst es direkt. Ohne `?id=` startet die App normal mit den eingebauten Beispieldokumenten.
+
+### Fehlerbehandlung
+
+| Fehlerfall | Verhalten |
+|---|---|
+| HTTP-Fehler (4xx, 5xx) | Fehlermeldung "Kontext `<id>` konnte nicht geladen werden." |
+| Fehlendes `xml`-Feld | Wie HTTP-Fehler |
+| Ungültiges Base64 | Wie HTTP-Fehler |
+| Netzwerkfehler | Fehlermeldung mit technischer Meldung |
+
+### Konfiguration
+
+`API_BASE` ist als Konstante in `App.tsx` (Zeile 12) hinterlegt:
+```typescript
+const API_BASE = 'http://192.168.0.225:8090/dataapi/context.php'
+```
 
 ---
 
@@ -352,6 +351,7 @@ Die Datei `mio-viewer.html` (im Projektwurzel oder Output-Ordner) ist eine volls
 
 - Schreibzugriff / Editieren von Dokumenten
 - Authentifizierung / TI-Anbindung (läuft außerhalb dieser App)
+- Konfigurierbarkeit der Backend-URL zur Laufzeit (aktuell Hardcode in App.tsx)
 - PDF-Export
 - Mehrsprachigkeit
 - Mobiles Layout
