@@ -1,7 +1,5 @@
 # CLAUDE.md — MIO Viewer Projekt
 
-Dieses Dokument ist die Übergabe für Claude Code. Es enthält alles was du wissen musst, um das Projekt selbstständig weiterzubauen.
-
 ---
 
 ## 1. Projektziel
@@ -9,6 +7,7 @@ Dieses Dokument ist die Übergabe für Claude Code. Es enthält alles was du wis
 Ein **Read-Only MIO-Viewer** für die elektronische Patientenakte (ePA). Die App empfängt FHIR-Bundle-XML-Dateien aus dem ePA-System und stellt sie in lesbarer Form dar — **ohne Bearbeitung, rein clientseitig**. Dokumente können per Datei-Upload oder über einen URL-Parameter `?id=` aus einem Backend geladen werden.
 
 Unterstützte Dokumenttypen (MIOs = Medizinische Informationsobjekte, KBV-Standard):
+
 - **Impfausweis** (`KBV_PR_MIO_Vaccination_Bundle_Entry`)
 - **eAU** — Arbeitsunfähigkeitsbescheinigung (`KBV_PR_MIO_AU_Bundle`)
 - **Mutterpass** (`KBV_PR_MIO_MR_Bundle`)
@@ -266,6 +265,7 @@ GET http://192.168.0.225:8090/dataapi/context.php?id=<contextId>
 ```
 
 Das Backend antwortet mit JSON:
+
 ```json
 { "xml": "<base64-kodiertes FHIR-XML>" }
 ```
@@ -284,6 +284,7 @@ Das Backend antwortet mit JSON:
 ### Konfiguration
 
 `API_BASE` ist als Konstante in `App.tsx` (Zeile 12) hinterlegt:
+
 ```typescript
 const API_BASE = 'http://192.168.0.225:8090/dataapi/context.php'
 ```
@@ -308,6 +309,7 @@ Alle Design-Tokens sind in `src/index.css` als CSS-Variablen definiert. Keine In
 Der `@mio/parser`-Import wird von Vite über den `alias` in `vite.config.ts` direkt auf die TypeScript-Quelldateien gemappt — kein separater Build-Schritt des Parsers nötig während der Entwicklung.
 
 XML-Dateien können mit dem `?raw`-Suffix als String importiert werden:
+
 ```typescript
 import impfausweisXml from '../../../test-data/impfausweis_real.xml?raw'
 ```
@@ -331,6 +333,7 @@ import impfausweisXml from '../../../test-data/impfausweis_real.xml?raw'
 Die Datei `mio-viewer.html` (im Projektwurzel oder Output-Ordner) ist eine vollständige funktionierende Standalone-Version des Viewers mit eingebettetem Parser. Sie dient als **visuelles Referenzdokument** — alle Render-Funktionen (`renderVaccination`, `renderEau`, `renderMutterpass`) sind dort als Plain-JS implementiert und können direkt in React portiert werden.
 
 **Farbcodes für MIO-Typen:**
+
 - Impfausweis: Grün (`--accent`, `--accent-bg`) · Icon-Text: `IV`
 - eAU: Amber (`--warn`, `--warn-bg`) · Icon-Text: `AU`
 - Mutterpass: Blau (`--info`, `--info-bg`) · Icon-Text: `MP`
