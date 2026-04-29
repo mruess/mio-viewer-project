@@ -7,6 +7,7 @@ import { Sidebar, type DocEntry } from './components/Sidebar'
 
 import impfausweisXml from '../../../test-data/impfausweis_real.xml?raw'
 import eauXml from '../../../test-data/eau.xml?raw'
+import eauKbvXml from '../../../test-data/eau-kbv-unknown.xml?raw'
 import mutterpassXml from '../../../test-data/mutterpass.xml?raw'
 
 const API_BASE = 'http://192.168.0.225:8090/dataapi/context.php'
@@ -19,7 +20,8 @@ type ViewerState =
 
 const BUILT_IN_DOCS: DocEntry[] = [
   { id: 'builtin-vacc', label: 'Impfausweis', desc: 'KBV · v1.1.0', type: 'vacc', xml: impfausweisXml },
-  { id: 'builtin-eau',  label: 'eAU',         desc: 'Erstbescheinigung', type: 'eau', xml: eauXml },
+  { id: 'builtin-eau',     label: 'eAU',         desc: 'Erstbescheinigung', type: 'eau', xml: eauXml },
+  { id: 'builtin-eau-kbv', label: 'eAU (KBV)',   desc: 'KBV_PR_EAU v1.2',   type: 'eau', xml: eauKbvXml },
   { id: 'builtin-mp',  label: 'Mutterpass',   desc: '5 Befunde', type: 'mp', xml: mutterpassXml },
 ]
 

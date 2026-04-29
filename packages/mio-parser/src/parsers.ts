@@ -13,6 +13,8 @@ import {
 import { buildEntryMap, resolveRefNode, uniqueEntries } from "./bundle-resolver.js";
 import {
   extractPatient,
+  extractPractitioner,
+  extractOrganization,
   extractPractitionerRole,
 } from "./resource-extractors.js";
 import type {
@@ -32,6 +34,8 @@ const PROFILE_VACCINATION =
   "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_Vaccination_Bundle_Entry";
 const PROFILE_EAU =
   "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_AU_Bundle";
+const PROFILE_EAU_NEW =
+  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EAU_Bundle";
 const PROFILE_MUTTERPASS =
   "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_MR_Bundle";
 
@@ -274,6 +278,93 @@ export function parseEauBundle(bundle: Record<string, unknown>): MioEau {
   };
 }
 
+// ─── eAU Parser (KBV_PR_EAU v1.2+) ──────────────────────────────────────────
+// Newer profile: AU type in Composition.type.coding, period in Condition_AU.onsetPeriod,
+// ICD in separate Condition_ICD, direct Practitioner (no PractitionerRole wrapper).
+
+const EAU_TYPE_MAP: Record<string, string> = {
+  ERST: "Erstbescheinigung",
+  FOLS: "Folgebescheinigung",
+  ABSC: "Abschlussbescheinigung",
+};
+
+export function parseEauBundleNew(bundle: Record<string, unknown>): MioEau {
+  const entryMap = buildEntryMap(bundle);
+
+  const patientEntry = uniqueEntries(entryMap).find((e) => e.resourceType === "Patient");
+  if (!patientEntry) throw new MioParseError("Kein Patient im eAU-Bundle gefunden");
+
+  const compositionEntry = uniqueEntries(entryMap).find((e) => e.resourceType === "Composition");
+  const composition = compositionEntry?.resource;
+
+  // AU type from Composition.type.coding with KBV_CS_EAU_AU_Type system
+  const typeCodings = extractCodings(dig(composition, "type"));
+  const auTypeCode = typeCodings.find((c) => c.system?.includes("KBV_CS_EAU_AU_Type"))?.code;
+  const auType = (auTypeCode ? EAU_TYPE_MAP[auTypeCode] : undefined) ?? auTypeCode ?? "Unbekannt";
+
+  // Separate Condition resources for AU period and ICD diagnosis
+  const allConditions = uniqueEntries(entryMap).filter((e) => e.resourceType === "Condition");
+  const auCondition = allConditions.find((e) =>
+    (attr(dig(e.resource, "meta", "profile")) ?? "").includes("KBV_PR_EAU_Condition_AU")
+  );
+  const icdCondition = allConditions.find((e) =>
+    (attr(dig(e.resource, "meta", "profile")) ?? "").includes("KBV_PR_EAU_Condition_ICD")
+  );
+
+  // AU period from Condition_AU.onsetPeriod
+  const incapacityFrom = normaliseDate(attr(dig(auCondition?.resource, "onsetPeriod", "start"))) ?? "";
+  const incapacityTo = normaliseDate(attr(dig(auCondition?.resource, "onsetPeriod", "end"))) ?? "";
+
+  // ICD from Condition_ICD.code.coding
+  const icdCodings = extractCodings(dig(icdCondition?.resource, "code"));
+  const primaryIcd = icdCodings.find((c) => c.system?.includes("icd"));
+
+  // Diagnosesicherheit lives in an extension on the coding node itself
+  const icdCodingNodes = asArray<unknown>(dig(icdCondition?.resource, "code", "coding"));
+  const icdCodingNode = icdCodingNodes.find((c) => attr(dig(c, "system"))?.includes("icd"));
+  const diagExts = asArray<unknown>(dig(icdCodingNode, "extension"));
+  const diagSicherheitExt = findExtension(diagExts, "http://fhir.de/StructureDefinition/icd-10-gm-diagnosesicherheit");
+  const diagnoseSicherheit = attr(dig(diagSicherheitExt, "valueCoding", "code"));
+
+  // Direct Practitioner + Organization (no PractitionerRole in this profile)
+  const practitionerEntry = uniqueEntries(entryMap).find((e) => e.resourceType === "Practitioner");
+  const organizationEntry = uniqueEntries(entryMap).find((e) => e.resourceType === "Organization");
+
+  const mioVersionRaw = attr(dig(bundle, "meta", "profile")) ?? "";
+  const mioVersion = mioVersionRaw.includes("|") ? mioVersionRaw.split("|")[1] : "unbekannt";
+
+  return {
+    bundleId: attr(dig(bundle, "id")) ?? "",
+    timestamp: normaliseDate(attr(dig(bundle, "timestamp"))) ?? "",
+    mioVersion,
+    patient: extractPatient(patientEntry.resource),
+    auType,
+    incapacityFrom,
+    incapacityTo,
+    issuedDate: normaliseDate(attr(dig(composition, "date"))) ?? "",
+    diagnosePrimary: primaryIcd
+      ? {
+          icdCode: primaryIcd.code,
+          icdSystem: primaryIcd.system,
+          displayText: primaryIcd.displayDe ?? primaryIcd.display,
+          diagnoseSicherheit,
+        }
+      : undefined,
+    workAccident: false,
+    initialCertificate: auType?.toLowerCase().includes("erst"),
+    finalCertificate: auType?.toLowerCase().includes("abschluss"),
+    practitioner: practitionerEntry
+      ? {
+          id: attr(dig(practitionerEntry.resource, "id")) ?? "",
+          practitioner: extractPractitioner(practitionerEntry.resource),
+          organization: organizationEntry
+            ? extractOrganization(organizationEntry.resource)
+            : undefined,
+        }
+      : undefined,
+  };
+}
+
 // ─── Mutterpass Parser ────────────────────────────────────────────────────────
 
 export function parseMutterpassBundle(bundle: Record<string, unknown>): MioMutterpass {
@@ -358,6 +449,9 @@ export function parseMioBundle(xml: string): MioParseResult {
   }
   if (profile.startsWith(PROFILE_EAU)) {
     return { type: "eau", data: parseEauBundle(bundle) };
+  }
+  if (profile.startsWith(PROFILE_EAU_NEW)) {
+    return { type: "eau", data: parseEauBundleNew(bundle) };
   }
   if (profile.startsWith(PROFILE_MUTTERPASS)) {
     return { type: "mutterpass", data: parseMutterpassBundle(bundle) };

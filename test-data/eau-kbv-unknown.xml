@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+	<id value="294ea023-cd9a-4bcd-ae99-28ddee4f2300"/>
+	<meta>
+		<lastUpdated value="2025-11-28T11:03:56Z"/>
+		<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EAU_Bundle|1.2"/>
+	</meta>
+	<identifier>
+		<system value="urn:ietf:rfc:3986"/>
+		<value value="urn:uuid:294ea023-cd9a-4bcd-ae99-28ddee4f2300"/>
+	</identifier>
+	<type value="document"/>
+	<timestamp value="2025-11-28T11:03:56Z"/>
+	<entry>
+		<fullUrl value="urn:uuid:43122aec-1fca-48c8-a0ff-2adac61dd66e"/>
+		<resource>
+			<Composition xmlns="http://hl7.org/fhir">
+				<id value="43122aec-1fca-48c8-a0ff-2adac61dd66e"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EAU_Composition|1.2"/>
+				</meta>
+				<extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
+					<valueCoding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN"/>
+						<code value="00"/>
+					</valueCoding>
+				</extension>
+				<status value="final"/>
+				<type>
+					<coding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_EAU_AU_Type"/>
+						<code value="ERST"/>
+					</coding>
+					<coding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_FORMULAR_ART"/>
+						<code value="e010"/>
+					</coding>
+				</type>
+				<subject>
+					<reference value="urn:uuid:23430c6d-6a8f-46e5-9f37-fe2ac8cd4d9c"/>
+				</subject>
+				<date value="2025-11-28"/>
+				<author>
+					<reference value="urn:uuid:1b5114af-deba-4246-a84c-584ff4b6ef87"/>
+					<type value="Practitioner"/>
+				</author>
+				<author>
+					<type value="Device"/>
+					<identifier>
+						<system value="https://fhir.kbv.de/NamingSystem/KBV_NS_FOR_Pruefnummer"/>
+						<value value="237.33"/>
+					</identifier>
+				</author>
+				<title value="Arbeitsunfähigkeit"/>
+				<custodian>
+					<reference value="urn:uuid:6d3182d5-eec5-4a65-8d94-567c74910c5a"/>
+				</custodian>
+				<section>
+					<code>
+						<coding>
+							<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Section_Type"/>
+							<code value="AU_Condition"/>
+						</coding>
+					</code>
+					<entry>
+						<reference value="urn:uuid:7d6c3603-606b-4ef5-83db-6ed4ca7201e8"/>
+					</entry>
+				</section>
+				<section>
+					<code>
+						<coding>
+							<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Section_Type"/>
+							<code value="ICD"/>
+						</coding>
+					</code>
+					<entry>
+						<reference value="urn:uuid:23652c62-d1d3-4372-acd1-fc2dbe964bff"/>
+					</entry>
+				</section>
+				<section>
+					<code>
+						<coding>
+							<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Section_Type"/>
+							<code value="Coverage"/>
+						</coding>
+					</code>
+					<entry>
+						<reference value="urn:uuid:9fff0271-b92d-4c21-a477-8a98261af172"/>
+					</entry>
+				</section>
+			</Composition>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:1b5114af-deba-4246-a84c-584ff4b6ef87"/>
+		<resource>
+			<Practitioner xmlns="http://hl7.org/fhir">
+				<id value="1b5114af-deba-4246-a84c-584ff4b6ef87"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+				</meta>
+				<identifier>
+					<use value="official"/>
+					<type>
+						<coding>
+							<system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
+							<code value="ZANR"/>
+						</coding>
+					</type>
+					<system value="http://fhir.de/sid/kzbv/zahnarztnummer"/>
+					<value value="111111191"/>
+				</identifier>
+				<identifier>
+					<type>
+						<coding>
+							<system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+							<code value="PRN"/>
+						</coding>
+					</type>
+					<system value="https://gematik.de/fhir/sid/telematik-id"/>
+					<value value="2-HBA-Testkarte-883110000153999"/>
+				</identifier>
+				<name>
+					<use value="official"/>
+					<family value="Gräfin von More">
+						<extension url="http://fhir.de/StructureDefinition/humanname-namenszusatz">
+							<valueString value="Gräfin"/>
+						</extension>
+						<extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+							<valueString value="More"/>
+						</extension>
+						<extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix">
+							<valueString value="von"/>
+						</extension>
+					</family>
+					<given value="Annie"/>
+					<prefix value="Dr.">
+						<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+							<valueCode value="AC"/>
+						</extension>
+					</prefix>
+				</name>
+				<qualification>
+					<code>
+						<coding>
+							<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type"/>
+							<code value="01"/>
+						</coding>
+					</code>
+				</qualification>
+				<qualification>
+					<code>
+						<coding>
+							<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung"/>
+							<code value="Berufsbezeichnung"/>
+						</coding>
+						<text value="Zahnärztin"/>
+					</code>
+				</qualification>
+			</Practitioner>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:6d3182d5-eec5-4a65-8d94-567c74910c5a"/>
+		<resource>
+			<Organization xmlns="http://hl7.org/fhir">
+				<id value="6d3182d5-eec5-4a65-8d94-567c74910c5a"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
+				</meta>
+				<identifier>
+					<use value="official"/>
+					<type>
+						<coding>
+							<system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
+							<code value="KZVA"/>
+						</coding>
+					</type>
+					<system value="http://fhir.de/sid/kzbv/kzvabrechnungsnummer"/>
+					<value value="006006513"/>
+				</identifier>
+				<identifier>
+					<type>
+						<coding>
+							<system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+							<code value="PRN"/>
+						</coding>
+					</type>
+					<system value="https://gematik.de/fhir/sid/telematik-id"/>
+					<value value="2-SMC-B-Testkarte--883110000153058"/>
+				</identifier>
+				<name value="Gemeinschaftspraxis Dr. Annie More und Dr. Klaus More und Ko"/>
+				<telecom>
+					<system value="phone"/>
+					<value value="0211-1111111"/>
+				</telecom>
+				<telecom>
+					<system value="fax"/>
+					<value value="0211-2222222"/>
+				</telecom>
+				<telecom>
+					<system value="email"/>
+					<value value="AM@Testpraxis.de"/>
+				</telecom>
+				<address>
+					<type value="both"/>
+					<line value="Musterstr. 1">
+						<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+							<valueString value="Musterstr."/>
+						</extension>
+						<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+							<valueString value="1"/>
+						</extension>
+					</line>
+					<city value="Düsseldorf"/>
+					<postalCode value="40221"/>
+					<country value="D"/>
+				</address>
+			</Organization>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:23430c6d-6a8f-46e5-9f37-fe2ac8cd4d9c"/>
+		<resource>
+			<Patient xmlns="http://hl7.org/fhir">
+				<id value="23430c6d-6a8f-46e5-9f37-fe2ac8cd4d9c"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
+				</meta>
+				<identifier>
+					<type>
+						<coding>
+							<system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
+							<code value="KVZ10"/>
+						</coding>
+					</type>
+					<system value="http://fhir.de/sid/gkv/kvid-10"/>
+					<value value="X110674241"/>
+				</identifier>
+				<name>
+					<use value="official"/>
+					<family value="Øz">
+						<extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+							<valueString value="Øz"/>
+						</extension>
+					</family>
+					<given value="Letizia"/>
+					<prefix value="Dr.">
+						<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+							<valueCode value="AC"/>
+						</extension>
+					</prefix>
+				</name>
+				<birthDate value="1993-08-23"/>
+				<address>
+					<type value="both"/>
+					<line value="Sulzfeldstraße 7">
+						<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+							<valueString value="Sulzfeldstraße"/>
+						</extension>
+						<extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+							<valueString value="7"/>
+						</extension>
+					</line>
+					<city value="Regensburg"/>
+					<postalCode value="93055"/>
+					<country value="D"/>
+				</address>
+			</Patient>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:9fff0271-b92d-4c21-a477-8a98261af172"/>
+		<resource>
+			<Coverage xmlns="http://hl7.org/fhir">
+				<id value="9fff0271-b92d-4c21-a477-8a98261af172"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
+				</meta>
+				<extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
+					<valueCoding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE"/>
+						<code value="00"/>
+					</valueCoding>
+				</extension>
+				<extension url="http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen">
+					<valueCoding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP"/>
+						<code value="00"/>
+					</valueCoding>
+				</extension>
+				<extension url="http://fhir.de/StructureDefinition/gkv/versichertenart">
+					<valueCoding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_VERSICHERTENSTATUS"/>
+						<code value="5"/>
+					</valueCoding>
+				</extension>
+				<extension url="http://fhir.de/StructureDefinition/gkv/wop">
+					<valueCoding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_ITA_WOP"/>
+						<code value="71"/>
+					</valueCoding>
+				</extension>
+				<status value="active"/>
+				<type>
+					<coding>
+						<system value="http://fhir.de/CodeSystem/versicherungsart-de-basis"/>
+						<code value="GKV"/>
+					</coding>
+				</type>
+				<beneficiary>
+					<reference value="urn:uuid:23430c6d-6a8f-46e5-9f37-fe2ac8cd4d9c"/>
+				</beneficiary>
+				<payor>
+					<identifier>
+						<system value="http://fhir.de/sid/arge-ik/iknr"/>
+						<value value="109500969"/>
+					</identifier>
+					<display value="GKV-SV Testkarte"/>
+				</payor>
+			</Coverage>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:7d6c3603-606b-4ef5-83db-6ed4ca7201e8"/>
+		<resource>
+			<Condition xmlns="http://hl7.org/fhir">
+				<id value="7d6c3603-606b-4ef5-83db-6ed4ca7201e8"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EAU_Condition_AU|1.2"/>
+				</meta>
+				<extension url="http://hl7.org/fhir/StructureDefinition/condition-assertedDate">
+					<valueDateTime value="2025-11-28"/>
+				</extension>
+				<clinicalStatus>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+						<code value="active"/>
+					</coding>
+				</clinicalStatus>
+				<verificationStatus>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+						<code value="confirmed"/>
+					</coding>
+				</verificationStatus>
+				<code>
+					<coding>
+						<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_FHIR_DOKUMENTTYPE"/>
+						<code value="eAU"/>
+					</coding>
+				</code>
+				<subject>
+					<reference value="urn:uuid:23430c6d-6a8f-46e5-9f37-fe2ac8cd4d9c"/>
+				</subject>
+				<onsetPeriod>
+					<start value="2025-11-28"/>
+					<end value="2025-11-28"/>
+				</onsetPeriod>
+				<asserter>
+					<reference value="urn:uuid:1b5114af-deba-4246-a84c-584ff4b6ef87"/>
+				</asserter>
+			</Condition>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="urn:uuid:23652c62-d1d3-4372-acd1-fc2dbe964bff"/>
+		<resource>
+			<Condition xmlns="http://hl7.org/fhir">
+				<id value="23652c62-d1d3-4372-acd1-fc2dbe964bff"/>
+				<meta>
+					<profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EAU_Condition_ICD|1.2"/>
+				</meta>
+				<clinicalStatus>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/condition-clinical"/>
+						<code value="active"/>
+					</coding>
+				</clinicalStatus>
+				<verificationStatus>
+					<coding>
+						<system value="http://terminology.hl7.org/CodeSystem/condition-ver-status"/>
+						<code value="confirmed"/>
+					</coding>
+				</verificationStatus>
+				<code>
+					<coding>
+						<extension url="http://fhir.de/StructureDefinition/icd-10-gm-diagnosesicherheit">
+							<valueCoding>
+								<system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_ICD_DIAGNOSESICHERHEIT"/>
+								<code value="G"/>
+							</valueCoding>
+						</extension>
+						<system value="http://fhir.de/CodeSystem/bfarm/icd-10-gm"/>
+						<version value="2025"/>
+						<code value="K01.1"/>
+					</coding>
+				</code>
+				<subject>
+					<reference value="urn:uuid:23430c6d-6a8f-46e5-9f37-fe2ac8cd4d9c"/>
+				</subject>
+				<asserter>
+					<reference value="urn:uuid:1b5114af-deba-4246-a84c-584ff4b6ef87"/>
+				</asserter>
+			</Condition>
+		</resource>
+	</entry>
+</Bundle>
+
