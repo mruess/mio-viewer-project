@@ -20,9 +20,9 @@ type ViewerState =
 
 const BUILT_IN_DOCS: DocEntry[] = [
   { id: 'builtin-vacc', label: 'Impfausweis', desc: 'KBV · v1.1.0', type: 'vacc', xml: impfausweisXml },
-  { id: 'builtin-eau',     label: 'eAU',         desc: 'Erstbescheinigung', type: 'eau', xml: eauXml },
-  { id: 'builtin-eau-kbv', label: 'eAU (KBV)',   desc: 'KBV_PR_EAU v1.2',   type: 'eau', xml: eauKbvXml },
-  { id: 'builtin-mp',  label: 'Mutterpass',   desc: '5 Befunde', type: 'mp', xml: mutterpassXml },
+  { id: 'builtin-eau', label: 'eAU', desc: 'Erstbescheinigung', type: 'eau', xml: eauXml },
+  { id: 'builtin-eau-kbv', label: 'eAU (KBV)', desc: 'KBV_PR_EAU v1.2', type: 'eau', xml: eauKbvXml },
+  { id: 'builtin-mp', label: 'Mutterpass', desc: '5 Befunde', type: 'mp', xml: mutterpassXml },
 ]
 
 export function App() {
@@ -63,8 +63,8 @@ export function App() {
             : `Ladefehler: ${e instanceof Error ? e.message : String(e)}`,
         })
       })
-  // parseAndShow ist stabil (useCallback ohne deps-Änderungen) — einmalig beim Mount
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // parseAndShow ist stabil (useCallback ohne deps-Änderungen) — einmalig beim Mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const parseAndShow = useCallback((xml: string, id: string) => {
@@ -113,7 +113,7 @@ export function App() {
     <div className={`app-shell${showSidebar ? '' : ' app-shell--no-sidebar'}`}>
       <header className="app-header">
         <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 15, fontWeight: 500 }}>
-          MIO Viewer
+          Data-AL MIO Viewer
         </span>
         <span style={{ fontSize: 12, color: '#aaa' }}>
           Elektronische Patientenakte — Read-Only
@@ -159,8 +159,8 @@ function ViewerContent({ state }: { state: ViewerState }) {
   const { result } = state
   switch (result.type) {
     case 'vaccination': return <VaccinationViewer data={result.data} />
-    case 'eau':         return <EauViewer data={result.data} />
-    case 'mutterpass':  return <MutterpassViewer data={result.data} />
+    case 'eau': return <EauViewer data={result.data} />
+    case 'mutterpass': return <MutterpassViewer data={result.data} />
     case 'unknown':
       return (
         <div className="error-box" style={{ margin: 24 }}>
