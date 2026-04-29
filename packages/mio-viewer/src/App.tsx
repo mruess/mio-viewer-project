@@ -30,6 +30,9 @@ export function App() {
   const [activeDocId, setActiveDocId] = useState<string | null>(null)
   const [uploadedDocs, setUploadedDocs] = useState<DocEntry[]>([])
 
+  const params = new URLSearchParams(window.location.search)
+  const showSidebar = params.get('sidebar') !== '0' && params.get('sidebar') !== 'false'
+
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get('id')
     if (!id) return
@@ -116,12 +119,14 @@ export function App() {
           Elektronische Patientenakte — Read-Only
         </span>
       </header>
-      <Sidebar
-        documents={allDocs}
-        activeId={activeDocId}
-        onSelect={handleSelect}
-        onFile={handleFile}
-      />
+      {showSidebar && (
+        <Sidebar
+          documents={allDocs}
+          activeId={activeDocId}
+          onSelect={handleSelect}
+          onFile={handleFile}
+        />
+      )}
       <main className="main-content">
         <ViewerContent state={state} />
       </main>
