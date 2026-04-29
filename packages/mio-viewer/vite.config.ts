@@ -4,6 +4,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  base: './',
   resolve: {
     alias: {
       '@mio/parser': resolve(__dirname, '../mio-parser/src/index.ts'),
