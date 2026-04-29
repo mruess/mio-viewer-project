@@ -37,6 +37,10 @@
   overflow: hidden;
 }
 
+.app-shell--no-sidebar {
+  grid-template-columns: 1fr;
+}
+
 .app-header {
   grid-column: 1 / -1;
   background: var(--text);

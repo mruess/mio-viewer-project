@@ -110,7 +110,7 @@ export function App() {
   const allDocs = [...BUILT_IN_DOCS, ...uploadedDocs]
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${showSidebar ? '' : ' app-shell--no-sidebar'}`}>
       <header className="app-header">
         <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 15, fontWeight: 500 }}>
           MIO Viewer
